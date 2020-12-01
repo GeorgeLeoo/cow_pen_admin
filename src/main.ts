@@ -7,7 +7,10 @@ import store from './store'
 
 import './permission'
 
-import './element-variables.scss'
+import './styles/index.scss'
+
+// 引入svg-icon
+// import '@/assets/icons/index'
 
 createApp(App)
   .use(ElementPlus)

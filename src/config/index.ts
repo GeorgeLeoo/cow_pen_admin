@@ -3,7 +3,7 @@ export default {
    * @description 配置浏览器标签的title
    */
   title: 'cow_pen_admin',
-  footerTitle: 'GeorgeLeeo',
+  footerTitle: 'Copyright © 2020 GeorgeLeeo',
   /**
    * @description token 在 cookie 中存储的天数
    */

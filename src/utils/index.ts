@@ -4,7 +4,7 @@ const title = config.title
 
 export function getPageTitle (pageTitle: string) {
   if (pageTitle) {
-    return `${pageTitle} - ${title}`
+    return `${pageTitle} | ${title}`
   }
   return `${title}`
 }
@@ -12,7 +12,7 @@ export function getPageTitle (pageTitle: string) {
 export function setPageTitle (pageTitle: string) {
   let _title = ''
   if (pageTitle) {
-    _title = `${pageTitle} - ${title}`
+    _title = `${pageTitle} | ${title}`
   }
   _title = `${title}`
   document.title = _title

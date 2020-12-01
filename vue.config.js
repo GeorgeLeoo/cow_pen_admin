@@ -5,6 +5,8 @@ const resolve = dir => {
   return path.join(__dirname, dir)
 }
 
+const devServerPort = 9092
+
 // 项目部署基础
 // 默认情况下，我们假设你的应用将被部署在域的根目录下,
 // 例如：https://www.my-app.com/
@@ -42,6 +44,30 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))
+
+    const svgRule = config.module.rule('svg')
+    const terser = config.optimization.minimizer('terser')
+    // 清除默认的 svgRule
+    svgRule.uses.clear()
+
+    svgRule
+      .test(/\.svg$/)
+      .include.add(resolve('./src/assets/icons'))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+    // 排除 其他的 svg 使用 svg-sprite-loader
+    config.module
+      .rule('images')
+      .test(/\.(png|jpe?g|gif|webp|svg)(\?.*)?$/)
+      .exclude.add(resolve('./src/assets/icons'))
+    terser.tap((args) => {
+      args[0].terserOptions.compress.drop_console = true
+      return args
+    })
   },
   // 设为false打包时不生成.map文件
   productionSourceMap: false,
@@ -50,6 +76,8 @@ module.exports = {
   //   proxy: 'localhost:3000'
   // }
   devServer: {
+    port: devServerPort,
+    open: true,
     proxy: {
       '/api/lc': {
         target: proxyTarget,
