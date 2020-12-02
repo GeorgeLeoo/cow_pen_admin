@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 const req = require.context('@/assets/icons/svg', false, /\.svg$/)
 const requireAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().map(requireContext)
@@ -29,15 +29,18 @@ export default defineComponent({
       default: ''
     }
   },
-  computed: {
-    symbolName () {
-      return `#icon-${this.icon}`
-    },
-    svgClass () {
-      if (this.className) {
-        return 'svg-icon ' + this.className
+  setup (props) {
+    const symbolName = computed(() => `#icon-${props.icon}`)
+    const svgClass = computed(() => {
+      if (props.className) {
+        return 'svg-icon ' + props.className
       }
       return 'svg-icon'
+    })
+
+    return {
+      symbolName,
+      svgClass
     }
   }
 })

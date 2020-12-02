@@ -1,7 +1,17 @@
 <template>
-<el-aside class="aside">
-  <div>logo</div>
-  <Menu />
+<el-aside
+  :class="[
+    'aside',
+    isCollapse ? 'aside-collapsed' : 'aside-collapse'
+  ]"
+>
+  <div>
+    <slot name="logo"></slot>
+  </div>
+  <Menu
+    :menuList="menuList"
+    :isCollapse="isCollapse"
+  />
 </el-aside>
 </template>
 
@@ -13,6 +23,16 @@ export default defineComponent({
   name: 'Sider',
   components: {
     Menu
+  },
+  props: {
+    menuList: {
+      type: Array,
+      default: () => { return [] }
+    },
+    isCollapse: {
+      type: Boolean,
+      default: false
+    }
   }
 })
 </script>
@@ -20,10 +40,16 @@ export default defineComponent({
 <style scoped lang="scss">
 @import './src/styles/variables.scss';
 .aside {
-  width: 200px!important;
   background-color: $menuBg;
+  transition: width 0.3s ease-out;
   .el-menu {
     border-right-width: 0;
   }
+}
+.aside-collapsed {
+  width: 64px!important;
+}
+.aside-collapse {
+  width: 200px!important;
 }
 </style>

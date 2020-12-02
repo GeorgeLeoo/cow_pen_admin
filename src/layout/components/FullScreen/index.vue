@@ -1,15 +1,15 @@
 <template>
-
+FullScreen
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: ''
+  name: 'FullScreen'
 })
 </script>
 
-<style scoped lang="scss">
+<style>
 
 </style>

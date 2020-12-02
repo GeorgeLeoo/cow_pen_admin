@@ -3,6 +3,7 @@
     :default-active="menuList[0].path"
     :background-color="variables.menuBg"
     :text-color="variables.menuTextColor"
+    :collapse="isCollapse"
     @select="handlerMenuSelect"
   >
     <MenuItem
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 import { useRouter } from 'vue-router'
 
@@ -22,22 +23,22 @@ import MenuItem from '@/layout/components/MenuItem'
 
 import variables from '@/styles/variables.scss'
 
-import routers from '@/router/routes'
-
 export default defineComponent({
   name: 'Menu',
   components: {
     MenuItem
   },
+  props: {
+    menuList: {
+      type: Array,
+      default: () => { return [] }
+    },
+    isCollapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup () {
-    const menuList = ref([])
-
-    routers.forEach(_ => {
-      if (_.name === 'Layout') {
-        menuList.value = _.children
-      }
-    })
-
     const router = useRouter()
 
     const handlerMenuSelect = indexPath => {
@@ -46,7 +47,6 @@ export default defineComponent({
 
     return {
       variables,
-      menuList,
       handlerMenuSelect
     }
   }
