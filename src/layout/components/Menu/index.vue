@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    :default-active="menuList[0].path"
+    :default-active="$route.name"
     :background-color="variables.menuBg"
     :text-color="variables.menuTextColor"
     :collapse="isCollapse"
