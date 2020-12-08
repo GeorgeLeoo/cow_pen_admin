@@ -17,7 +17,7 @@
         @menu-trigger="handlerMenuTrigger"
       >
         <template #right>
-          <FullScreen v-model="isFullscreen" />
+          <FullScreen :value="isFullscreen" @fullscreenchange="fullscreenchange" />
           <User />
         </template>
       </Header>
@@ -62,11 +62,16 @@ export default defineComponent({
       isCollapse.value = !isCollapse.value
     }
 
+    const fullscreenchange = (v) => {
+      isFullscreen.value = v
+    }
+
     return {
       menuList,
       isCollapse,
       handlerMenuTrigger,
-      isFullscreen
+      isFullscreen,
+      fullscreenchange
     }
   }
 })

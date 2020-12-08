@@ -1,22 +1,23 @@
 <template>
-  <div v-if="showFullScreenBtn" class="full-screen-btn-con">
+  <div class="full-screen-btn-con">
     <el-tooltip
       class="item"
       effect="dark"
       :content="value ? '退出全屏' : '全屏'"
       placement="bottom"
     >
-      <SvgIcon
+      <div @click="handleChange">
+        <SvgIcon
         class-name="menu-icon"
         :icon="value ? 'exit_full_screen' : 'full_screen'"
-        @click="handleChange"
       />
+      </div>
     </el-tooltip>
   </div>
 </template>
 
 <script>
-import { computed, defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 
 export default defineComponent({
   name: 'FullScreen',
@@ -26,10 +27,10 @@ export default defineComponent({
       default: false
     }
   },
+  emits: {
+    fullscreenchange: playload => { return playload }
+  },
   setup (props, { emit }) {
-    const showFullScreenBtn = computed(() => {
-      return window.navigator.userAgent.indexOf('MSIE') < 0
-    })
     const handleFullscreen = () => {
       const main = document.body
       if (props.value) {
@@ -62,26 +63,21 @@ export default defineComponent({
       let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
       isFullscreen = !!isFullscreen
       document.addEventListener('fullscreenchange', () => {
-        emit('input', !props.value)
-        emit('on-change', !props.value)
+        emit('fullscreenchange', !props.value)
       })
       document.addEventListener('mozfullscreenchange', () => {
-        emit('input', !props.value)
-        emit('on-change', !props.value)
+        emit('fullscreenchange', !props.value)
       })
       document.addEventListener('webkitfullscreenchange', () => {
-        emit('input', !props.value)
-        emit('on-change', !props.value)
+        emit('fullscreenchange', !props.value)
       })
       document.addEventListener('msfullscreenchange', () => {
-        emit('input', !props.value)
-        emit('on-change', !props.value)
+        emit('fullscreenchange', !props.value)
       })
-      emit('input', isFullscreen)
+      emit('fullscreenchange', isFullscreen)
     })
 
     return {
-      showFullScreenBtn,
       handleChange
     }
   }
