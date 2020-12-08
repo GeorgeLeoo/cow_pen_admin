@@ -44,7 +44,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .header {
+  height: 60px;
   line-height: 60px;
+  background: #fff;
   .header__left {
     float: left;
     .header__left-item {

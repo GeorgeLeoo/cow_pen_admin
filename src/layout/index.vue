@@ -17,6 +17,7 @@
         @menu-trigger="handlerMenuTrigger"
       >
         <template #right>
+          <FullScreen v-model="isFullscreen" />
           <User />
         </template>
       </Header>
@@ -37,6 +38,7 @@ import Header from '@/layout/components/Header'
 import Footer from '@/layout/components/Footer'
 import User from '@/layout/components/User'
 import TagNav from '@/layout/components/TagNav'
+import FullScreen from '@/layout/components/FullScreen'
 
 import { getMenuList } from '@/utils'
 
@@ -47,12 +49,14 @@ export default defineComponent({
     Header,
     Footer,
     User,
-    TagNav
+    TagNav,
+    FullScreen
   },
   setup () {
     const menuList = ref(getMenuList())
 
     const isCollapse = ref(false)
+    const isFullscreen = ref(false)
 
     const handlerMenuTrigger = () => {
       isCollapse.value = !isCollapse.value
@@ -61,7 +65,8 @@ export default defineComponent({
     return {
       menuList,
       isCollapse,
-      handlerMenuTrigger
+      handlerMenuTrigger,
+      isFullscreen
     }
   }
 })
