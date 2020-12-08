@@ -1,12 +1,16 @@
 <template>
-  <div id="nav">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
+import store from '@/store'
+import routes from '@/router/routes'
+
 export default {
-  name: 'App'
+  name: 'App',
+  setup () {
+    store.dispatch('setRoutes', routes)
+  }
 }
 </script>
 

@@ -6,11 +6,7 @@
     :collapse="isCollapse"
     @select="handlerMenuSelect"
   >
-    <MenuItem
-      v-for="menu in menuList"
-      :key="menu.name"
-      :menu="menu"
-    />
+    <MenuItem v-for="menu in menuList" :key="menu.name" :menu="menu" />
   </el-menu>
 </template>
 
@@ -31,7 +27,9 @@ export default defineComponent({
   props: {
     menuList: {
       type: Array,
-      default: () => { return [] }
+      default: () => {
+        return []
+      }
     },
     isCollapse: {
       type: Boolean,
@@ -41,12 +39,12 @@ export default defineComponent({
   setup () {
     const router = useRouter()
 
-    const handlerMenuSelect = indexPath => {
-      router.push(indexPath)
+    const handlerMenuSelect = menu => {
+      router.push({ name: menu })
     }
-
     return {
       variables,
+      router,
       handlerMenuSelect
     }
   }

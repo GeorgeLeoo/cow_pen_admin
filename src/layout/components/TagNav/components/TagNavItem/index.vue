@@ -1,8 +1,8 @@
 <template>
   <div class="tag-nav-item">
-    <span class="dot"></span>
-    <span class="title">首页</span>
-    <span class="el-icon-close"></span>
+    <span class="dot" :class="{'active-dot': active}"></span>
+    <span class="title">{{title}}</span>
+    <span v-if="!hiddenClose" class="el-icon-close" @click.stop="handleClose"></span>
   </div>
 </template>
 
@@ -10,7 +10,32 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'TagNavItem'
+  name: 'TagNavItem',
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    active: {
+      type: Boolean,
+      default: false
+    },
+    hiddenClose: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: {
+    close: playload => playload
+  },
+  setup (props, { emit }) {
+    const handleClose = () => {
+      emit('close')
+    }
+    return {
+      handleClose
+    }
+  }
 })
 </script>
 
@@ -36,6 +61,10 @@ export default defineComponent({
     height: 8px;
     border-radius: 100%;
     background: #a6a8ad;
+  }
+
+  .active-dot {
+    background: $--color-primary;
   }
 
   .title {
