@@ -34,6 +34,9 @@ export default defineComponent({
       default: true
     }
   },
+  emits: {
+    'menu-trigger': playload => playload
+  },
   setup (props, { emit }) {
     return {
       ...dispatchMenuTrigger(emit)

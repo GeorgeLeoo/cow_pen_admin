@@ -7,7 +7,7 @@
           <span>欢迎登录</span>
         </div>
       </template>
-      <el-form ref="loginForm" :model="userForm" :rules="rules" status-icon label-width="0">
+      <el-form :ref="loginForm" :model="userForm" :rules="rules" status-icon label-width="0">
         <el-form-item prop="username">
           <el-input size="small" prefix-icon="el-icon-user"  type="text" v-model="userForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
@@ -22,16 +22,22 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-// import { useRouter } from 'vue-router'
+import { defineComponent, reactive, nextTick } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'Login',
   setup () {
+    const store = useStore()
+    const router = useRouter()
+
     const userForm = reactive({
       username: 'admin',
       password: 'admin'
     })
+
+    let userFormEl = reactive({})
 
     const rules = reactive({
       username: [
@@ -42,23 +48,33 @@ export default defineComponent({
       ]
     })
 
-    return {
-      rules,
-      userForm
+    const loginForm = (res) => {
+      userFormEl = res
     }
-  },
-  methods: {
-    handlerLogin () {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.$router.push({ name: 'Home' })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+
+    const handlerLogin = () => {
+      nextTick(() => {
+        userFormEl.validate((valid) => {
+          if (valid) {
+            store.dispatch('login', userForm).then(() => {
+              router.push({ name: 'Home' })
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       })
     }
-  }
+
+    return {
+      rules,
+      userForm,
+      handlerLogin,
+      loginForm
+    }
+  },
+  methods: {}
 })
 </script>
 

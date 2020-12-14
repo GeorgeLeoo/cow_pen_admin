@@ -1,4 +1,7 @@
+import { getToken } from '@/utils'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { ElMessage } from 'element-plus'
+import store from '@/store'
 
 interface Queue {
   [propName: string]: boolean;
@@ -15,7 +18,9 @@ class HttpRequest {
   getInsideConfig () {
     const config: AxiosRequestConfig = {
       baseURL: this.baseURL,
-      headers: {}
+      headers: {
+        'X-Auth': getToken()
+      }
     }
     return config
   }
@@ -40,8 +45,8 @@ class HttpRequest {
 
     instance.interceptors.response.use(res => {
       this.destroy(url)
-      const { data, status } = res
-      return { data, status }
+      const { data } = res
+      return data
     }, error => {
       let errorInfo = error.response
       if (!errorInfo) {
@@ -52,6 +57,13 @@ class HttpRequest {
           request: { responseURL: config.url }
         }
       }
+      if (errorInfo.data.code !== 200) {
+        if (errorInfo.data.code === 409) {
+          store.dispatch('logout')
+        } else {
+          ElMessage.error(errorInfo.data.msg)
+        }
+      }
       // addErrorLog()
       return Promise.reject(error)
     })
@@ -59,7 +71,7 @@ class HttpRequest {
 
   request (options: AxiosRequestConfig) {
     const instance = axios.create()
-    options = Object.assign(this.getInsideConfig, options)
+    options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url ? options.url : '')
     return instance(options)
   }

@@ -1,20 +1,31 @@
 <template>
-  <el-dropdown trigger="click">
+  <el-dropdown trigger="click" @command="handlerUserMenuClick">
     <span class="el-dropdown-link">
       <el-badge is-dot class="badge">
-        <el-avatar class="avatar" :size="30" icon="el-icon-user-solid"></el-avatar>
+        <el-avatar
+          class="avatar"
+          :size="30"
+          icon="el-icon-user-solid"
+        ></el-avatar>
       </el-badge>
       <i class="el-icon-arrow-down el-icon--right"></i>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>
+        <el-dropdown-item command="msg">
           <el-badge :value="100" :max="10" class="item">
             消息中心
           </el-badge>
         </el-dropdown-item>
-        <el-dropdown-item>个人中心</el-dropdown-item>
-        <el-dropdown-item divided>退出登录</el-dropdown-item>
+        <el-dropdown-item
+          command="profile"
+          >个人中心</el-dropdown-item
+        >
+        <el-dropdown-item
+          command="logout"
+          divided
+          >退出登录</el-dropdown-item
+        >
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -24,7 +35,18 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'User'
+  name: 'User',
+  emits: {
+    userMenuClick: playload => playload
+  },
+  setup (props, { emit }) {
+    const handlerUserMenuClick = command => {
+      emit('user-menu-click', command)
+    }
+    return {
+      handlerUserMenuClick
+    }
+  }
 })
 </script>
 

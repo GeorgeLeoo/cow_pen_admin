@@ -37,6 +37,11 @@ export default defineComponent({
       emit('close', type)
     }
 
+    // 监听 路由的变化
+    // 判断当前路由对应的tag-item是否在可见区域
+    // 判断是在可见区域的左边还是右边
+    // 滚动到对应的位置
+
     return {
       handlerClose
     }

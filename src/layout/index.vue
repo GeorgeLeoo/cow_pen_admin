@@ -18,7 +18,7 @@
       >
         <template #right>
           <FullScreen :value="isFullscreen" @fullscreenchange="fullscreenchange" />
-          <User />
+          <User @user-menu-click="handlerUserMenuClick" />
         </template>
       </Header>
     </el-header>
@@ -33,6 +33,9 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useStore } from 'vuex'
+import { ElMessageBox } from 'element-plus'
+
 import Sider from '@/layout/components/Sider'
 import Header from '@/layout/components/Header'
 import Footer from '@/layout/components/Footer'
@@ -53,6 +56,7 @@ export default defineComponent({
     FullScreen
   },
   setup () {
+    const store = useStore()
     const menuList = ref(getMenuList())
 
     const isCollapse = ref(false)
@@ -66,12 +70,30 @@ export default defineComponent({
       isFullscreen.value = v
     }
 
+    const handlerUserMenuClick = (command) => {
+      console.log('user menu')
+      if (command === 'logout') {
+        ElMessageBox.confirm('确定退出登录吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('logout').then(() => {
+            window.location.reload()
+          })
+        })
+      }
+    }
+
+    store.dispatch('getUserInfo')
+
     return {
       menuList,
       isCollapse,
       handlerMenuTrigger,
       isFullscreen,
-      fullscreenchange
+      fullscreenchange,
+      handlerUserMenuClick
     }
   }
 })

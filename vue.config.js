@@ -21,9 +21,9 @@ const BASE_URL = process.env.NODE_ENV === 'production'
 
 const proxyTargetMap = {
   prod: 'https://xxx.xxx.com/',
-  dev: 'http://120.55.81.129:20080',
+  dev: 'http://localhost:7001/',
   test: 'http://test.xxx.com',
-  local: 'http://localhost:9092/'
+  local: 'http://localhost:7001/'
 }
 const proxyTarget = proxyTargetMap[process.env.API_TYPE] || proxyTargetMap.local
 
@@ -43,7 +43,7 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
-      .set('_c', resolve('src/components'))
+      .set('@@', resolve('src/components'))
 
     const svgRule = config.module.rule('svg')
     const terser = config.optimization.minimizer('terser')
@@ -79,7 +79,7 @@ module.exports = {
     port: devServerPort,
     open: true,
     proxy: {
-      '/api/lc': {
+      '/': {
         target: proxyTarget,
         ws: true,
         changeOrigin: true

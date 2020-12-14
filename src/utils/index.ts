@@ -1,6 +1,9 @@
 import config from '@/config'
 import routers from '@/router/routes'
 import { RouteRecordRaw } from 'vue-router'
+import Cookies from 'js-cookie'
+
+export const TOKEN_KEY = 'token'
 
 export function getPageTitle (pageTitle: string) {
   const title = config.title
@@ -32,4 +35,16 @@ export function getMenuList () {
     }
   })
   return menuList
+}
+
+export const setToken = (token: string) => {
+  Cookies.set(TOKEN_KEY, token, { expires: config.cookieExpires || 1 })
+}
+
+export const getToken = () => {
+  const token = Cookies.get(TOKEN_KEY)
+  if (token) {
+    return token
+  }
+  return false
 }
