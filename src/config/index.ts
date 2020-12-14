@@ -19,7 +19,7 @@ export default {
    */
   baseUrl: {
     dev: 'http://localhost:7001/',
-    pro: ''
+    pro: 'http://139.159.201.22:7001/'
   },
   /**
    * @description 默认打开的首页的路由 name 值，默认为 home
