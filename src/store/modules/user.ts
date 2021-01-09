@@ -48,27 +48,24 @@ export default {
     }
   },
   actions: {
-    login ({ commit }: Store, loginInfo: LoginInfo) {
+    login ({ commit }: Store, loginInfo: LoginInfo): Promise<void> {
       return new Promise(resolve => {
         const { username, password } = loginInfo
         login(username, password).then(({ data }) => {
-          commit('setToken', data[0] ? data[0].token : '')
-          commit('login', data[0].token)
+          commit('setToken', data.token ? data.token : '')
+          commit('login', data.token)
           resolve()
         })
       })
     },
-    logout ({ state, commit }: Store) {
-      return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('setToken', '')
-          resolve()
-        }).catch((err: {} | []) => {
-          reject(err)
-        })
+    logout ({ commit }: Store): Promise<void> {
+      return new Promise(resolve => {
+        logout().then().catch()
+        commit('setToken', '')
+        resolve()
       })
     },
-    getUserInfo ({ commit }: Store) {
+    getUserInfo ({ commit }: Store): Promise<void> {
       return new Promise((resolve, reject) => {
         getUserInfo().then(({ data }) => {
           commit('getUserInfo', data)

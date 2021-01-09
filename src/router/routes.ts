@@ -1,14 +1,17 @@
 import { RouteRecordRaw } from 'vue-router'
 
-import Home from '../views/Home/index.vue'
-import Layout from '@/layout/index.vue'
-import Panel from '@/components/Panel/index.vue'
+import courseManage from './modules/courseManage'
+
+const Panel = () => import(/* webpackChunkName: "panel" */ '../components/Panel/Panel.vue')
+const Layout = () => import(/* webpackChunkName: "layout" */ '../layout/Layout.vue')
+const Home = () => import(/* webpackChunkName: "home" */ '../views/Home/Home.vue')
+const Login = () => import(/* webpackChunkName: "login" */ '../views/Login/Login.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login/index.vue'),
+    component: Login,
     meta: {
       title: '登录'
     }
@@ -28,6 +31,7 @@ const routes: Array<RouteRecordRaw> = [
           icon: 'home'
         }
       },
+      courseManage,
       {
         path: '/about',
         name: 'About',

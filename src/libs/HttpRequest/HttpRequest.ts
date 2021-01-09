@@ -19,7 +19,7 @@ class HttpRequest {
     const config: AxiosRequestConfig = {
       baseURL: this.baseURL,
       headers: {
-        'X-Auth': getToken()
+        Authorization: `Bearer ${getToken()}`
       }
     }
     return config
@@ -61,7 +61,7 @@ class HttpRequest {
         if (errorInfo.data.code === 409) {
           store.dispatch('logout')
         } else {
-          ElMessage.error(errorInfo.data.msg)
+          ElMessage.error(JSON.stringify(errorInfo.data.msg))
         }
       }
       // addErrorLog()

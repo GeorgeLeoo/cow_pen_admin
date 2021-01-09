@@ -5,7 +5,7 @@
       :key="item.name"
       :to="(!item.redirect && item.name !== $route.name) ? { name: item.name } : ''"
     >
-      {{ item.name }}
+      {{ (item.meta && item.meta.title) ? item.meta.title : item.name }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>

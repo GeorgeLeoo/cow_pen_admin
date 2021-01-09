@@ -6,19 +6,17 @@ import HttpRequest from '../libs/HttpRequest'
  * @param password 密码
  */
 export const login = (username: string, password: string) => HttpRequest.request({
-  url: '/login',
+  url: '/user/login',
   method: 'post',
   data: { username, password }
 })
 
 /**
  * 登录
- * @param token
  */
-export const logout = (token: string) => HttpRequest.request({
-  url: '/logout',
-  method: 'post',
-  data: { token }
+export const logout = () => HttpRequest.request({
+  url: '/user/logout',
+  method: 'patch'
 })
 
 /**
